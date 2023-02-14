@@ -7,7 +7,6 @@ public class PriceListMapper
         return new Domain.App.PriceList()
         {
             Id = x.Id,
-            Counter = x.Counter,
             ValidUntil = x.ValidUntil,
             ValueJson = x.ValueJson
         };
@@ -18,7 +17,6 @@ public class PriceListMapper
         return new DAL.App.DTO.PriceList()
         {
             Id = x.Id,
-            Counter = x.Counter,
             ValidUntil = x.ValidUntil,
             ValueJson = x.ValueJson,
         };

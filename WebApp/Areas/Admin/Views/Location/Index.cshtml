@@ -1,0 +1,53 @@
+@model IEnumerable<DAL.App.DTO.Location>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Details">Create New</a>
+</p>
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.PlanetarySystemName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PlanetName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PlanetLocationName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UniquePlanetLocation3LetterIdentifier)
+        </th>
+
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PlanetarySystemName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PlanetName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PlanetLocationName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UniquePlanetLocation3LetterIdentifier)
+            </td>
+            
+            <td>
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

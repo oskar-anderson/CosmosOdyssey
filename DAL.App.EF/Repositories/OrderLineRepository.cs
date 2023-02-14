@@ -22,7 +22,7 @@ public class OrderLineRepository : IOrderLineRepository
     }
 
 
-    public async Task<IEnumerable<OrderLine>> GetAllAsyncBase()
+    public async Task<List<OrderLine>> GetAllAsyncBase()
     {
         return await RepoDbSet.Select(x => Mapper.DomainToDal(x)).ToListAsync();
     }

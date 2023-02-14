@@ -11,7 +11,10 @@ class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-        
+        // PostgreSQL Datetime support
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+        builder.Configuration.AddJsonFile("appsettings.secret.json", optional: false, reloadOnChange: true);  // will override appsettings.json keys
+        Console.WriteLine(builder.Configuration.GetSection("ConnectionStrings")["DefaultConnection"]);
         // Add services to the container.
         builder.Services.AddDbContext<AppDbContext>(options =>
         {
@@ -27,21 +30,17 @@ class Program
                                    throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
             options
                 .UseNpgsql(connectionString)
-                .UseLoggerFactory(loggerFactory);
-            options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-        });
-        // makes httpcontext injectable - needed to resolve username in dal layer
-        builder.Services.AddHttpContextAccessor();
-        builder.Services.AddScoped<IUserNameProvider, UserNameProvider>();
-        
-        builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+                .UseLoggerFactory(loggerFactory)
+                .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+        })
+            .AddHttpContextAccessor()         // makes httpcontext injectable - needed to resolve username in dal layer
+            .AddScoped<IUserNameProvider, UserNameProvider>()
+            .AddDatabaseDeveloperPageExceptionFilter()
+            .AddControllersWithViews();
 
         builder.Services
             .AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
             .AddEntityFrameworkStores<AppDbContext>();
-
-        // Add services to the container.
-        builder.Services.AddControllersWithViews();
 
         var app = builder.Build();
 

@@ -22,7 +22,7 @@ public class PriceListRepository : IPriceListRepository
     }
 
 
-    public async Task<IEnumerable<PriceList>> GetAllAsyncBase()
+    public async Task<List<PriceList>> GetAllAsyncBase()
     {
         return await RepoDbSet.Select(x => Mapper.DomainToDal(x)).ToListAsync();
     }
@@ -67,5 +67,18 @@ public class PriceListRepository : IPriceListRepository
     public async Task<bool> ExistsAsync(Guid id)
     {
         return await RepoDbSet.AnyAsync(x => x.Id.Equals(id));
+    }
+
+    public async Task<int> OrderByValidUntilDescendingThenDeleteLastNElements(int lastNElementsToDelete)
+    {
+        var toDeleteElements = await RepoDbSet
+            .OrderByDescending(x => x.ValidUntil)
+            .Skip(lastNElementsToDelete)
+            .ToListAsync();
+        foreach (var element in toDeleteElements)
+        {
+            await RemoveAsync(element.Id);
+        }
+        return toDeleteElements.Count;
     }
 }

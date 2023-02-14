@@ -22,7 +22,7 @@ public class OrderRepository : IOrderRepository
     }
 
 
-    public async Task<IEnumerable<Order>> GetAllAsyncBase()
+    public async Task<List<Order>> GetAllAsyncBase()
     {
         return await RepoDbSet.Select(x => Mapper.DomainToDal(x)).ToListAsync();
     }

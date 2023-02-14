@@ -22,7 +22,7 @@ public class LocationRepository : ILocationRepository
     }
 
 
-    public async Task<IEnumerable<Location>> GetAllAsyncBase()
+    public async Task<List<Location>> GetAllAsyncBase()
     {
         return await RepoDbSet.Select(x => Mapper.DomainToDal(x)).ToListAsync();
     }

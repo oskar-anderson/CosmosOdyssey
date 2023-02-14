@@ -22,7 +22,7 @@ public class ProvidedRouteRepository : IProvidedRouteRepository
     }
 
 
-    public async Task<IEnumerable<ProvidedRoute>> GetAllAsyncBase()
+    public async Task<List<ProvidedRoute>> GetAllAsyncBase()
     {
         return await RepoDbSet.Select(x => Mapper.DomainToDal(x)).ToListAsync();
     }

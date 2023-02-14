@@ -8,7 +8,7 @@ namespace Domain.App;
 public class Location : DomainEntityMetadata
 {
     [MaxLength(255)] 
-    public string SolarSystemName { get; set; } = default!;
+    public string PlanetarySystemName { get; set; } = default!;
     
     [MaxLength(255)] 
     public string PlanetName { get; set; } = default!;

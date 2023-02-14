@@ -1,0 +1,32 @@
+@model DAL.App.DTO.Company
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>@nameof(DAL.App.DTO.Company)</h4>
+    <hr />
+    <dl class="row">
+        
+        <form asp-action="@ViewData["actionControllerMethodNameDeleteOrCreate"]">
+            
+            <div asp-validation-summary="All" class="text-danger"></div>
+            
+            <input type="hidden" asp-for="Id" />
+            
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control"/>
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            
+            <input type="submit" value="@ViewData["actionName"]" class="btn @ViewData["btn-type"]" />
+        </form>
+    </dl>
+</div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

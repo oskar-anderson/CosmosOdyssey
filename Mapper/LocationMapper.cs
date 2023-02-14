@@ -7,7 +7,7 @@ public class LocationMapper
         return new Domain.App.Location()
         {
             Id = x.Id,
-            SolarSystemName = x.SolarSystemName,
+            PlanetarySystemName = x.PlanetarySystemName,
             PlanetName = x.PlanetName,
             PlanetLocationName = x.PlanetLocationName,
             UniquePlanetLocation3LetterIdentifier = x.UniquePlanetLocation3LetterIdentifier,
@@ -19,7 +19,7 @@ public class LocationMapper
         return new DAL.App.DTO.Location()
         {
             Id = x.Id,
-            SolarSystemName = x.SolarSystemName,
+            PlanetarySystemName = x.PlanetarySystemName,
             PlanetName = x.PlanetName,
             PlanetLocationName = x.PlanetLocationName,
             UniquePlanetLocation3LetterIdentifier = x.UniquePlanetLocation3LetterIdentifier,

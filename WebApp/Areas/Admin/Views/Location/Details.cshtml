@@ -1,0 +1,48 @@
+@model DAL.App.DTO.Location
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>@nameof(DAL.App.DTO.Company)</h4>
+    <hr />
+    <dl class="row">
+        
+        <form asp-action="@ViewData["actionControllerMethodNameDeleteOrCreate"]">
+            
+            <div asp-validation-summary="All" class="text-danger"></div>
+            
+            <input type="hidden" asp-for="Id" />
+            
+            <div class="form-group">
+                <label asp-for="PlanetarySystemName" class="control-label"></label>
+                <input asp-for="PlanetarySystemName" class="form-control"/>
+                <span asp-validation-for="PlanetarySystemName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PlanetName" class="control-label"></label>
+                <input asp-for="PlanetName" class="form-control"/>
+                <span asp-validation-for="PlanetName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PlanetLocationName" class="control-label"></label>
+                <input asp-for="PlanetLocationName" class="form-control"/>
+                <span asp-validation-for="PlanetLocationName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UniquePlanetLocation3LetterIdentifier" class="control-label"></label>
+                <input asp-for="UniquePlanetLocation3LetterIdentifier" class="form-control"/>
+                <span asp-validation-for="UniquePlanetLocation3LetterIdentifier" class="text-danger"></span>
+            </div>
+            
+            
+            <input type="submit" value="@ViewData["actionName"]" class="btn @ViewData["btn-type"]" />
+        </form>
+    </dl>
+</div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

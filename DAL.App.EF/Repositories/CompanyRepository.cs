@@ -22,7 +22,7 @@ public class CompanyRepository : ICompanyRepository
     }
 
 
-    public async Task<IEnumerable<Company>> GetAllAsyncBase()
+    public async Task<List<Company>> GetAllAsyncBase()
     {
         return await RepoDbSet.Select(x => Mapper.DomainToDal(x)).ToListAsync();
     }

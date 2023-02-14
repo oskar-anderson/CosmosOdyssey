@@ -14,12 +14,14 @@ public class ProvidedRoute : DomainEntityMetadata
     public Guid DestinationLocationId { get; set; }
     public Location DestinationLocation { get; set; } = default!;
     
+    public long Distance { get; set; }
+    
     [ForeignKey(nameof(Company))]
     public Guid CompanyId { get; set; }
     public Company Company { get; set; } = default!;
     
     [Precision(28, 2)]
-    public decimal Price { get; set; }
+    public double Price { get; set; }
     
     public DateTime FlightStart { get; set; }
     public DateTime FlightEnd { get; set; }

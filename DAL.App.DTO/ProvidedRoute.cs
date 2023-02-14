@@ -10,10 +10,12 @@ public class ProvidedRoute
     public required Guid DestinationLocationId { get; set; }
     public required Location DestinationLocation { get; set; } = default!;
     
+    public required long Distance { get; set; }
+    
     public required Guid CompanyId { get; set; }
     public required Company Company { get; set; } = default!;
     
-    public required decimal Price { get; set; }
+    public required double Price { get; set; }
     
     public required DateTime FlightStart { get; set; }
     public required DateTime FlightEnd { get; set; }

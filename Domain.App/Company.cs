@@ -8,7 +8,7 @@ public class Company : DomainEntityMetadata
     [MaxLength(255)]
     public string Name { get; set; } = default!;
 
-    public ICollection<ProvidedRoute> ProvidedRoutes = default!;
+    public ICollection<ProvidedRoute>? ProvidedRoutes;
 
     /*
      *

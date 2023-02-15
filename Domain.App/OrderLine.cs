@@ -6,7 +6,7 @@ namespace Domain.App;
 public class OrderLine : DomainEntityMetadata
 {
     public Guid OrderId { get; set; }
-    public Order Order { get; set; } = default!;
+    public Order? Order { get; set; }
     
     public decimal QuotedPrice { get; set; }
     // From->Destination

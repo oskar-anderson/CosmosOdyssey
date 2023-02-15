@@ -1,10 +1,12 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
+#nullable disable
+
 namespace DAL.App.EF.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialDbCreation : Migration
+    public partial class DbCreation1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,9 +18,9 @@ namespace DAL.App.EF.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
                     CreatedBy = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     ChangedBy = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
-                    ChangedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    ChangedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -30,14 +32,14 @@ namespace DAL.App.EF.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    SolarSystemName = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
+                    PlanetarySystemName = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
                     PlanetName = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
                     PlanetLocationName = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
                     UniquePlanetLocation3LetterIdentifier = table.Column<string>(type: "character varying(3)", maxLength: 3, nullable: false),
                     CreatedBy = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     ChangedBy = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
-                    ChangedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    ChangedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -51,11 +53,11 @@ namespace DAL.App.EF.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     FirstName = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
                     LastName = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
-                    DateOfPurchase = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    DateOfPurchase = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     CreatedBy = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     ChangedBy = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
-                    ChangedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    ChangedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -67,13 +69,12 @@ namespace DAL.App.EF.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Counter = table.Column<int>(type: "integer", nullable: false),
-                    ValidUntil = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    nvarcharmax = table.Column<string>(name: "nvarchar(max)", type: "text", nullable: false),
+                    ValidUntil = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    ValueJson = table.Column<string>(type: "text", nullable: false),
                     CreatedBy = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     ChangedBy = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
-                    ChangedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    ChangedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -87,14 +88,15 @@ namespace DAL.App.EF.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     FromLocationId = table.Column<Guid>(type: "uuid", nullable: false),
                     DestinationLocationId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Distance = table.Column<long>(type: "bigint", nullable: false),
                     CompanyId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Price = table.Column<decimal>(type: "numeric(28,2)", precision: 28, scale: 2, nullable: false),
-                    FlightStart = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    FlightEnd = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Price = table.Column<double>(type: "double precision", precision: 28, scale: 2, nullable: false),
+                    FlightStart = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    FlightEnd = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     CreatedBy = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     ChangedBy = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
-                    ChangedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    ChangedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -128,13 +130,13 @@ namespace DAL.App.EF.Migrations
                     QuotedPrice = table.Column<decimal>(type: "numeric", nullable: false),
                     RouteName = table.Column<string>(type: "text", nullable: false),
                     Price = table.Column<decimal>(type: "numeric(28,2)", precision: 28, scale: 2, nullable: false),
-                    FlightStart = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    FlightEnd = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    FlightStart = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    FlightEnd = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     CompanyName = table.Column<string>(type: "text", nullable: false),
                     CreatedBy = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     ChangedBy = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
-                    ChangedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    ChangedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
                 {

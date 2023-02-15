@@ -211,8 +211,7 @@ namespace DAL.App.EF.Migrations
 
                     b.Property<string>("ValueJson")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 

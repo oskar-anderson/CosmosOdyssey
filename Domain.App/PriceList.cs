@@ -7,6 +7,5 @@ public class PriceList : DomainEntityMetadata
 {
     public DateTime ValidUntil { get; set; }
     
-    [Column("nvarchar(max)")]  // this should be default datatype value for string, but annotation seems more readable
     public string ValueJson { get; set; } = default!;
 }

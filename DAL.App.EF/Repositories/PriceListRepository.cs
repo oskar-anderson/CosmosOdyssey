@@ -69,7 +69,7 @@ public class PriceListRepository : IPriceListRepository
         return await RepoDbSet.AnyAsync(x => x.Id.Equals(id));
     }
 
-    public async Task<int> OrderByValidUntilDescendingThenDeleteLastNElements(int lastNElementsToDelete)
+    public async Task<int> OrderByValidUntilDescendingThenSkipNThenDeleteAll(int lastNElementsToDelete)
     {
         var toDeleteElements = await RepoDbSet
             .OrderByDescending(x => x.ValidUntil)

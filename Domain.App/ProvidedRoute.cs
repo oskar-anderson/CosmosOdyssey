@@ -8,17 +8,17 @@ public class ProvidedRoute : DomainEntityMetadata
 {
     [ForeignKey(nameof(Location))]
     public Guid FromLocationId { get; set; }
-    public Location FromLocation { get; set; } = default!;
+    public Location? FromLocation { get; set; }
     
     [ForeignKey(nameof(Location))]
     public Guid DestinationLocationId { get; set; }
-    public Location DestinationLocation { get; set; } = default!;
+    public Location? DestinationLocation { get; set; }
     
     public long Distance { get; set; }
     
     [ForeignKey(nameof(Company))]
     public Guid CompanyId { get; set; }
-    public Company Company { get; set; } = default!;
+    public Company? Company { get; set; }
     
     [Precision(28, 2)]
     public double Price { get; set; }

@@ -5,5 +5,5 @@ namespace Contracts.DAL.App.Repository;
 
 public interface IPriceListRepository : IBaseRepository<PriceList>
 {
-    public Task<int> OrderByValidUntilDescendingThenDeleteLastNElements(int lastNElementsToDelete);
+    public Task<int> OrderByValidUntilDescendingThenSkipNThenDeleteAll(int lastNElementsToDelete);
 }

@@ -8,6 +8,33 @@ Insert your PostgreSQL database connection string.
 3. `dotnet build`
 4. `dotnet run --project WebApp`
 
+### Data Seeding
+There is support for seeding data from CSV files to database.
+Data is viable with LibreOffice (Excel is very bad for CSV files, recommended to use LibreOffice instead) in Data directory.
+That directory along with all its content is loaded to WebApp project compilation directory and then parsed by the running app.
+CSV file format is delimited by ',', all fields are always escaped by '"', only formula result value is saved.
+Speaking of formulas you can use this formula to create GUID Ids:
+```
+=CONCATENATE(DEC2HEX(RANDBETWEEN(0,4294967295),8),"-",DEC2HEX(RANDBETWEEN(0,65535),4),"-",DEC2HEX(RANDBETWEEN(0,65535),4),"-",DEC2HEX(RANDBETWEEN(0,65535),4),"-",DEC2HEX(RANDBETWEEN(0,4294967295),8),DEC2HEX(RANDBETWEEN(0,65535),4))
+```
+1. Insert the formula into Id column
+2. "CTRL + C" on the cell
+3. "CTRL + SHIFT + V" on the same cell
+4. Click "Values Only"
+5. You are pasting data into cell that already contains data. Click "Yes"
+
+Or just use this website: https://guidgenerator.com/online-guid-generator.aspx
+
+When you are ready to seed data change `appsettings.json` AppDataInitialization properties to `true`
+```
+"AppDataInitialization": {
+  "DropDatabase": true,
+  "MigrateDatabase": true,
+  "SeedData": true
+},
+```
+
+
 ## Description
 ### Architecture
 Basically database `DbContext` interacts with `Domain` objects (`Domain` objects = database table = `DbSet`).
@@ -38,7 +65,8 @@ Project layers:
 * Microsoft.EntityFrameworkCore.Relational - EntityFrameworkCore extension package for relational databases. Needed for migrations (Microsoft.EntityFrameworkCore.Migrations (comes with Microsoft.EntityFrameworkCore package) relies on it).
 * Microsoft.EntityFrameworkCore.Abstractions - precision attribute for EF decimal datatype
 * Microsoft.Aspnetcore.Diagnostics.EntityFrameworkCore - builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-Identity:
+* System.Net.Http.Json - Convenience method to allow deserialization of httpClient request
+* Identity:
   * Microsoft.Aspnetcore.Identity.UI - .AddDefaultIdentity()
   * Microsoft.Aspnetcore.Identity.EntityFrameworkCore - .AddEntityFrameworkStores()
 * CRUD:
@@ -48,7 +76,7 @@ Identity:
 ## Commands
 Database related (run in solution folder)
 ~~~
-dotnet ef migrations add InitialDbCreation --project DAL.App.EF --startup-project WebApp
+dotnet ef migrations add DbCreation4 --project DAL.App.EF --startup-project WebApp
 dotnet ef database update --project DAL.App.EF --startup-project WebApp
 dotnet ef database drop --project DAL.App.EF --startup-project WebApp
 ~~~

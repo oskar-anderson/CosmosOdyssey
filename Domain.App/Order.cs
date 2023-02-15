@@ -13,5 +13,5 @@ public class Order : DomainEntityMetadata
     
     public DateTime DateOfPurchase { get; set; } = default;
 
-    public ICollection<OrderLine> OrderLines { get; set; } = default!;
+    public ICollection<OrderLine>? OrderLines { get; set; }
 }

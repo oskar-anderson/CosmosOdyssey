@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DAL.App.EF.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230213221627_DbCreation2")]
-    partial class DbCreation2
+    [Migration("20230214203721_DbCreation1")]
+    partial class DbCreation1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -202,9 +202,6 @@ namespace DAL.App.EF.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");
 
-                    b.Property<int>("Counter")
-                        .HasColumnType("integer");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone");
 
@@ -217,8 +214,7 @@ namespace DAL.App.EF.Migrations
 
                     b.Property<string>("ValueJson")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -251,6 +247,9 @@ namespace DAL.App.EF.Migrations
                     b.Property<Guid>("DestinationLocationId")
                         .HasColumnType("uuid");
 
+                    b.Property<long>("Distance")
+                        .HasColumnType("bigint");
+
                     b.Property<DateTime>("FlightEnd")
                         .HasColumnType("timestamp without time zone");
 
@@ -260,9 +259,9 @@ namespace DAL.App.EF.Migrations
                     b.Property<Guid>("FromLocationId")
                         .HasColumnType("uuid");
 
-                    b.Property<decimal>("Price")
+                    b.Property<double>("Price")
                         .HasPrecision(28, 2)
-                        .HasColumnType("numeric(28,2)");
+                        .HasColumnType("double precision");
 
                     b.HasKey("Id");
 

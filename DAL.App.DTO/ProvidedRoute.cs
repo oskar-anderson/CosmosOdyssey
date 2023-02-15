@@ -5,15 +5,15 @@ public class ProvidedRoute
     public required Guid Id { get; set; }
     
     public required Guid FromLocationId { get; set; }
-    public required Location FromLocation { get; set; } = default!;
+    public Location? FromLocation { get; set; }
     
     public required Guid DestinationLocationId { get; set; }
-    public required Location DestinationLocation { get; set; } = default!;
+    public Location? DestinationLocation { get; set; }
     
     public required long Distance { get; set; }
     
     public required Guid CompanyId { get; set; }
-    public required Company Company { get; set; } = default!;
+    public Company? Company { get; set; }
     
     public required double Price { get; set; }
     

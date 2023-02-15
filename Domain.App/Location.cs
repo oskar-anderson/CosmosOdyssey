@@ -18,7 +18,7 @@ public class Location : DomainEntityMetadata
     
     [StringLength(3, MinimumLength = 3)]
     public string UniquePlanetLocation3LetterIdentifier { get; set; } = default!;
-    
-    public ICollection<ProvidedRoute> FromRoutes = default!;
-    public ICollection<ProvidedRoute> DestinationRoutes = default!;
+
+    public ICollection<ProvidedRoute>? FromRoutes;
+    public ICollection<ProvidedRoute>? DestinationRoutes;
 }

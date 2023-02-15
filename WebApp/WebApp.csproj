@@ -18,6 +18,7 @@
       <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.1" />
       <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.1" />
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.1" />
+      <PackageReference Include="System.Net.Http.Json" Version="7.0.0" />
     </ItemGroup>
 
     <ItemGroup>
@@ -27,6 +28,13 @@
 
     <ItemGroup>
       <Folder Include="Areas\Home" />
+    </ItemGroup>
+
+    <!-- https://stackoverflow.com/questions/1292351/including-content-files-in-csproj-that-are-outside-the-project-cone -->
+    <ItemGroup>
+        <Content Include="..\Data\**\*.*" CopyToOutputDirectory="PreserveNewest">
+            <Link>Data\%(RecursiveDir)%(Filename)%(Extension)</Link>
+        </Content>
     </ItemGroup>
 
 </Project>

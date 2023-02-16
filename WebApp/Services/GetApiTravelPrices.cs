@@ -62,7 +62,8 @@ public class GetApiTravelPrices : IGetApiTravelPrices
         _logger.LogInformation($"Data will be invalid at: {apiPriceList.ValidUntil.ToString(CultureInfo.InvariantCulture)}.");
 
         // add ProvidedRoute[] and PriceList data to transaction
-        var providedRouteList = await GetProvidedRoutes(apiPriceList, databaseContext);
+        var priceListId = Guid.NewGuid();
+        var providedRouteList = await GetProvidedRoutes(apiPriceList, databaseContext, priceListId);
         var providedRouteRepository = new DAL.App.EF.Repositories.ProvidedRouteRepository(databaseContext);
         foreach (var providedRoute in providedRouteList)
         {
@@ -70,7 +71,7 @@ public class GetApiTravelPrices : IGetApiTravelPrices
         }
         var priceList = new DAL.App.DTO.PriceList()
         {
-            Id = Guid.NewGuid(),  // maybe should be using apiPriceList.Id instead
+            Id = priceListId,  // maybe should be using apiPriceList.Id instead
             ValidUntil = apiPriceList.ValidUntil,
             ValueJson = System.Text.Json.JsonSerializer.Serialize(apiPriceList)
         };
@@ -78,8 +79,9 @@ public class GetApiTravelPrices : IGetApiTravelPrices
         await priceRepository.Add(priceList);
         
         // remove old PriceList
+        // this will also delete the providedRoute by cascade delete
         await priceRepository.OrderByValidUntilDescendingThenSkipNThenDeleteAll(15);
-        
+
         // commit transaction
         await databaseContext.SaveChangesAsync();
     }
@@ -105,12 +107,12 @@ public class GetApiTravelPrices : IGetApiTravelPrices
         }
     }
 
-    public async Task<List<DAL.App.DTO.ProvidedRoute>> GetProvidedRoutes(ApiPriceList apiPriceList, AppDbContext dbContext)
+    public async Task<List<DAL.App.DTO.ProvidedRouteNavigationless>> GetProvidedRoutes(ApiPriceList apiPriceList, AppDbContext dbContext, Guid priceListId)
     {
         var ourCompanies = await new DAL.App.EF.Repositories.CompanyRepository(dbContext).GetAllAsyncBase();
         var ourLocations = await new DAL.App.EF.Repositories.LocationRepository(dbContext).GetAllAsyncBase();
         var ourLocationNames = ourLocations.Select(x => x.PlanetName).ToList();
-        var providedRouteList = new List<DAL.App.DTO.ProvidedRoute>();
+        var providedRouteList = new List<DAL.App.DTO.ProvidedRouteNavigationless>();
         foreach (var leg in apiPriceList.Legs)
         {
             if (! ourLocationNames.Contains(leg.routeInfo.From.Name) || ! ourLocationNames.Contains(leg.routeInfo.To.Name))  // Unknown location, will be ignored
@@ -129,9 +131,10 @@ public class GetApiTravelPrices : IGetApiTravelPrices
                     _logger.LogWarning($"Skipping unknown company {provider.Company.Name}.");
                     continue;
                 }
-                var providedRoute = new DAL.App.DTO.ProvidedRoute()
+                var providedRoute = new DAL.App.DTO.ProvidedRouteNavigationless()
                 {
                     Id = Guid.NewGuid(),
+                    PriceListId = priceListId,
                     CompanyId = ourCompany.Id,
                     DestinationLocationId = ourToLocation.Id,
                     FromLocationId = ourFromLocation.Id,

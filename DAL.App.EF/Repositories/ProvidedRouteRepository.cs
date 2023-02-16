@@ -2,6 +2,7 @@ using Contracts.DAL.App.Repository;
 using DAL.App.DTO;
 using Mapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace DAL.App.EF.Repositories;
 
@@ -21,15 +22,24 @@ public class ProvidedRouteRepository : IProvidedRouteRepository
         }
     }
 
+    // Convenience method to include everything for mapping
+    public IIncludableQueryable<Domain.App.ProvidedRoute, Domain.App.Location?> GetIncludes(DbSet<Domain.App.ProvidedRoute> dbSet)
+    {
+        return dbSet
+            .Include(x => x.Company)
+            .Include(x => x.FromLocation)
+            .Include(x => x.DestinationLocation);
+    }
+
 
     public async Task<List<ProvidedRoute>> GetAllAsyncBase()
     {
-        return await RepoDbSet.Select(x => Mapper.DomainToDal(x)).ToListAsync();
+        return await GetIncludes(RepoDbSet).Select(x => Mapper.DomainToDal(x)).ToListAsync();
     }
 
     public async Task<ProvidedRoute?> FirstOrDefault(Guid id)
     {
-        return Mapper.DomainToDal(await RepoDbSet.FirstAsync(x => x.Id.Equals(id)));
+        return Mapper.DomainToDal(await GetIncludes(RepoDbSet).FirstAsync(x => x.Id.Equals(id)));
     }
 
     public async Task<ProvidedRoute> Add(ProvidedRoute entity)
@@ -67,5 +77,30 @@ public class ProvidedRouteRepository : IProvidedRouteRepository
     public async Task<bool> ExistsAsync(Guid id)
     {
         return await RepoDbSet.AnyAsync(x => x.Id.Equals(id));
+    }
+    
+    public async Task Add(ProvidedRouteNavigationless entity)
+    {
+        var domainEntity = Mapper.NavigationlessToDomain(entity);
+        await RepoDbSet.AddAsync(domainEntity);
+    }
+    
+    public async Task<List<Location>> ProvidedRoutes_IncludeLocation_WhereFromLocationIdEqualsArg_SelectDestinationLocation_Distinct_ToListAsync(Guid fromLocationId)
+    {
+        var locationMapper = new LocationMapper();
+        return await GetIncludes(RepoDbSet)
+            .Where(x => x.FromLocationId == fromLocationId)
+            .Select(x => locationMapper.DomainToDal(x.DestinationLocation))
+            .Distinct()
+            .ToListAsync();
+    }
+
+    public async Task<List<ProvidedRoute>> ProvidedRoutes_GetAll_WhereFromLocationIdEqualsArg1AndToLocationIdEqualsArg2_ToListAsync(Guid fromLocationId,
+        Guid toLocationId)
+    {
+        return await GetIncludes(RepoDbSet)
+            .Where(x => x.FromLocationId == fromLocationId && x.DestinationLocationId == toLocationId)
+            .Select(x => Mapper.DomainToDal(x))
+            .ToListAsync();
     }
 }

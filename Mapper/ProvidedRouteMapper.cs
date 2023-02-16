@@ -4,16 +4,36 @@ public class ProvidedRouteMapper
 {
     public Domain.App.ProvidedRoute DalToDomain(DAL.App.DTO.ProvidedRoute x)
     {
+        var fromLocation = new LocationMapper().DalToDomain(x.FromLocation);
+        var destinationLocation = new LocationMapper().DalToDomain(x.DestinationLocation);
+        var company = new CompanyMapper().DalToDomain(x.Company);
         return new Domain.App.ProvidedRoute()
         {
             Id = x.Id,
+            PriceListId = x.PriceListId,
+            FromLocationId = fromLocation.Id,
+            FromLocation = fromLocation,
+            DestinationLocationId = destinationLocation.Id,
+            DestinationLocation = destinationLocation,
+            Distance = x.Distance,
+            CompanyId = company.Id,
+            Company = company,
+            Price = x.Price,
+            FlightStart = x.FlightStart,
+            FlightEnd = x.FlightEnd,
+        };
+    }
+    
+    public Domain.App.ProvidedRoute NavigationlessToDomain(DAL.App.DTO.ProvidedRouteNavigationless x)
+    {
+        return new Domain.App.ProvidedRoute()
+        {
+            Id = x.Id,
+            PriceListId = x.PriceListId,
             FromLocationId = x.FromLocationId,
-            FromLocation = x.FromLocation == null ? null : new LocationMapper().DalToDomain(x.FromLocation),
             DestinationLocationId = x.DestinationLocationId,
-            DestinationLocation = x.DestinationLocation == null ? null : new LocationMapper().DalToDomain(x.DestinationLocation),
             Distance = x.Distance,
             CompanyId = x.CompanyId,
-            Company = x.Company == null ? null : new CompanyMapper().DalToDomain(x.Company),
             Price = x.Price,
             FlightStart = x.FlightStart,
             FlightEnd = x.FlightEnd,
@@ -25,13 +45,11 @@ public class ProvidedRouteMapper
         return new DAL.App.DTO.ProvidedRoute()
         {
             Id = x.Id,
-            FromLocationId = x.FromLocationId,
-            FromLocation = null,
-            DestinationLocationId = x.DestinationLocationId,
-            DestinationLocation = null,
+            PriceListId = x.PriceListId,
+            FromLocation = new LocationMapper().DomainToDal(x.FromLocation),
+            DestinationLocation = new LocationMapper().DomainToDal(x.DestinationLocation),
             Distance = x.Distance,
-            CompanyId = x.CompanyId,
-            Company = null,
+            Company = new CompanyMapper().DomainToDal(x.Company),
             Price = x.Price,
             FlightStart = x.FlightStart,
             FlightEnd = x.FlightEnd,

@@ -23,11 +23,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\DAL.App.EF\DAL.App.EF.csproj" />
-      <ProjectReference Include="..\ServiceDTO\ServiceDTO.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Areas\Home" />
+      <ProjectReference Include="..\WebDTO\WebDTO.csproj" />
     </ItemGroup>
 
     <!-- https://stackoverflow.com/questions/1292351/including-content-files-in-csproj-that-are-outside-the-project-cone -->

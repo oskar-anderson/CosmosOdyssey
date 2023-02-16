@@ -11,7 +11,7 @@ public class Order : DomainEntityMetadata
     [MaxLength(255)]
     public string LastName { get; set; } = default!;
     
-    public DateTime DateOfPurchase { get; set; } = default;
+    public DateTime DateOfPurchase { get; set; }
 
-    public ICollection<OrderLine>? OrderLines { get; set; }
+    public virtual ICollection<OrderLine>? OrderLines { get; set; }
 }

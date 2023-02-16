@@ -2,6 +2,8 @@ using Contracts.DAL.App.Repository;
 using DAL.App.DTO;
 using Mapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
+using OrderLine = Domain.App.OrderLine;
 
 namespace DAL.App.EF.Repositories;
 
@@ -21,15 +23,21 @@ public class OrderRepository : IOrderRepository
         }
     }
 
+    // Convenience method to include everything for mapping
+    public IIncludableQueryable<Domain.App.Order, ICollection<OrderLine>?> GetIncludes(DbSet<Domain.App.Order> dbSet)
+    {
+        return dbSet
+            .Include(x => x.OrderLines);
+    }
 
     public async Task<List<Order>> GetAllAsyncBase()
     {
-        return await RepoDbSet.Select(x => Mapper.DomainToDal(x)).ToListAsync();
+        return await GetIncludes(RepoDbSet).Select(x => Mapper.DomainToDal(x)).ToListAsync();
     }
 
     public async Task<Order?> FirstOrDefault(Guid id)
     {
-        return Mapper.DomainToDal(await RepoDbSet.FirstAsync(x => x.Id.Equals(id)));
+        return Mapper.DomainToDal(await GetIncludes(RepoDbSet).FirstAsync(x => x.Id.Equals(id)));
     }
 
     public async Task<Order> Add(Order entity)

@@ -29,7 +29,9 @@ public class LocationRepository : ILocationRepository
 
     public async Task<Location?> FirstOrDefault(Guid id)
     {
-        return Mapper.DomainToDal(await RepoDbSet.FirstAsync(x => x.Id.Equals(id)));
+        var location = await RepoDbSet.FirstOrDefaultAsync(x => x.Id.Equals(id));
+        if (location == null) return null;
+        return Mapper.DomainToDal(location);
     }
 
     public async Task<Location> Add(Location entity)

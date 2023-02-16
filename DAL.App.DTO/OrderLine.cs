@@ -11,7 +11,7 @@ public class OrderLine
     // From->Destination
     public required string RouteName { get; set; } = default!;
     
-    public required decimal Price { get; set; }
+    public required double Price { get; set; }
     
     public required DateTime FlightStart { get; set; }
     public required DateTime FlightEnd { get; set; }

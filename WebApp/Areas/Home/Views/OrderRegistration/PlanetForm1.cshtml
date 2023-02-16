@@ -1,0 +1,48 @@
+@model WebDTO.OrderRegistration1
+
+@{
+    ViewBag.Title = "Book flight";
+}
+
+
+<div>
+    <h1>Book a flight to</h1>
+</div>
+<br>
+<br>
+
+<form asp-action="PlanetForm2" method="GET">
+    @{
+        if (! string.IsNullOrEmpty(Model.ErrorMsg))
+        {
+            <div class="alert alert-warning" role="alert">
+                @Model.ErrorMsg
+            </div>
+        }
+    }
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                @Html.LabelFor(model => model.FromPlanets):
+            </div>
+            <div class="col">
+                <div>
+                    <select class="form-control" asp-for="From" asp-items="Model.FromPlanets">
+                        <option value="">-</option>
+                    </select>
+                </div>
+                <div>
+                    <span asp-validation-for="From" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="d-flex justify-content-end">
+            <input type="submit" value="Next" class="btn btn-primary"/>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,58 @@
+@model WebDTO.CreateOrder
+
+@{
+    ViewBag.Title = "Order";
+}
+
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="form-group">
+            <label asp-for="ProvidedRoute.FromLocation.PlanetName" class="control-label">From:</label>
+            <input asp-for="ProvidedRoute.FromLocation.PlanetName" class="form-control" readonly="readonly" value="@Model.ProvidedRoute.FromLocation.PlanetName" />
+        </div>
+        <div class="form-group">
+            <label asp-for="ProvidedRoute.DestinationLocation.PlanetName" class="control-label">To:</label>
+            <input asp-for="ProvidedRoute.DestinationLocation.PlanetName" class="form-control" readonly="readonly" value="@Model.ProvidedRoute.DestinationLocation.PlanetName" />
+        </div>
+        <div class="form-group">
+            <label asp-for="ProvidedRoute.Company.Name" class="control-label">Company:</label>
+            <input asp-for="ProvidedRoute.Company.Name" class="form-control" readonly="readonly" value="@Model.ProvidedRoute.Company.Name" />
+        </div>
+        <div class="form-group">
+            <label asp-for="ProvidedRoute.FlightStart" class="control-label">Flight start:</label>
+            <input asp-for="ProvidedRoute.FlightStart" class="form-control" readonly="readonly" value="@Model.ProvidedRoute.FlightStart" />
+        </div>
+        <div class="form-group">
+            <label asp-for="ProvidedRoute.FlightEnd" class="control-label">Flight end:</label>
+            <input asp-for="ProvidedRoute.FlightEnd" class="form-control" readonly="readonly" value="@Model.ProvidedRoute.FlightEnd" />
+        </div>
+        <div class="form-group">
+            <label asp-for="ProvidedRoute.Price" class="control-label">Price:</label>
+            <input asp-for="ProvidedRoute.Price" class="form-control" readonly="readonly" value="@Model.ProvidedRoute.Price" />
+        </div>
+        
+        <form asp-controller="OrderRegistration" asp-action="CreateReservation" method="POST" asp-route-id="@Model.ProvidedRoute.Id">
+            
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create Reservation" class="btn btn-primary" />
+            </div>
+        </form>
+        
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

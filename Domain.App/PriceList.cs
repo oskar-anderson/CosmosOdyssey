@@ -8,4 +8,6 @@ public class PriceList : DomainEntityMetadata
     public DateTime ValidUntil { get; set; }
     
     public string ValueJson { get; set; } = default!;
+
+    public virtual ICollection<ProvidedRoute>? ProvidedRoutes { get; set; }
 }

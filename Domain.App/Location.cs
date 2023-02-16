@@ -18,7 +18,12 @@ public class Location : DomainEntityMetadata
     
     [StringLength(3, MinimumLength = 3)]
     public string UniquePlanetLocation3LetterIdentifier { get; set; } = default!;
-
-    public ICollection<ProvidedRoute>? FromRoutes;
-    public ICollection<ProvidedRoute>? DestinationRoutes;
+    
+    // same type FromRoutes and DestinationRoutes take part in multiple relationships so it has to be annotated.
+    // Otherwise "InvalidOperationException: Unable to determine the relationship represented by navigation 'Location.DestinationRoutes' of type 'ICollection<ProvidedRoute>'." is thrown
+    [InverseProperty(nameof(Domain.App.ProvidedRoute.FromLocation))]
+    public virtual ICollection<ProvidedRoute>? FromRoutes { get; set; }
+    
+    [InverseProperty(nameof(Domain.App.ProvidedRoute.DestinationLocation))]
+    public virtual ICollection<ProvidedRoute>? DestinationRoutes { get; set; }
 }

@@ -260,6 +260,9 @@ namespace DAL.App.EF.Migrations
                         .HasPrecision(28, 2)
                         .HasColumnType("double precision");
 
+                    b.Property<Guid>("PriceListId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CompanyId");
@@ -267,6 +270,8 @@ namespace DAL.App.EF.Migrations
                     b.HasIndex("DestinationLocationId");
 
                     b.HasIndex("FromLocationId");
+
+                    b.HasIndex("PriceListId");
 
                     b.ToTable("ProvidedRoute");
                 });
@@ -302,11 +307,19 @@ namespace DAL.App.EF.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Domain.App.PriceList", "PriceList")
+                        .WithMany()
+                        .HasForeignKey("PriceListId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Company");
 
                     b.Navigation("DestinationLocation");
 
                     b.Navigation("FromLocation");
+
+                    b.Navigation("PriceList");
                 });
 
             modelBuilder.Entity("Domain.App.Order", b =>

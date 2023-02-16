@@ -1,0 +1,91 @@
+@model IEnumerable<DAL.App.DTO.ProvidedRoute>
+
+@{
+    ViewBag.Title = "Available Deals";
+}
+
+
+<div class="h3">Available flights from 
+    @($"{Model.First().FromLocation.PlanetName} - {Model.First().FromLocation.PlanetLocationName} ({Model.First().FromLocation.UniquePlanetLocation3LetterIdentifier})")
+    to 
+    @($"{Model.First().DestinationLocation.PlanetName} - {Model.First().DestinationLocation.PlanetLocationName} ({Model.First().DestinationLocation.UniquePlanetLocation3LetterIdentifier})")
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Company.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FlightStart)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FlightEnd)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price) (€)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Distance) (km)
+            </th>
+            <th>
+                Flight duration (Hours)
+            </th>
+            <th>
+                Actions
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var providedRoute in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => providedRoute.Company.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => providedRoute.FlightStart)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => providedRoute.FlightEnd)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => providedRoute.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => providedRoute.Distance)
+                </td>
+                <td>
+                    @((providedRoute.FlightEnd - providedRoute.FlightStart).TotalHours.ToString("F0"))
+                </td>
+                <td>
+                    <a asp-controller="OrderRegistration" asp-action="CreateOrder" asp-route-id="@providedRoute.Id">Pick</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts
+{
+    <link rel="stylesheet" type="text/css" href="~/lib/DataTables/datatables.min.css"/>
+    <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="~/lib/DataTables/datatables.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.table').DataTable({
+                "paging": false,
+                "columns": [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    { orderable: false }
+                ]
+            });
+        });
+    </script>
+}

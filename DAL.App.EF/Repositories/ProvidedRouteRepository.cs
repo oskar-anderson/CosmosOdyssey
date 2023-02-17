@@ -26,6 +26,7 @@ public class ProvidedRouteRepository : IProvidedRouteRepository
     public IIncludableQueryable<Domain.App.ProvidedRoute, Domain.App.Location?> GetIncludes(DbSet<Domain.App.ProvidedRoute> dbSet)
     {
         return dbSet
+            .Include(x => x.PriceList)
             .Include(x => x.Company)
             .Include(x => x.FromLocation)
             .Include(x => x.DestinationLocation);
@@ -102,5 +103,10 @@ public class ProvidedRouteRepository : IProvidedRouteRepository
             .Where(x => x.FromLocationId == fromLocationId && x.DestinationLocationId == toLocationId)
             .Select(x => Mapper.DomainToDal(x))
             .ToListAsync();
+    }
+
+    public void RemoveAll()
+    {
+        RepoDbSet.RemoveRange(RepoDbSet.ToList());
     }
 }

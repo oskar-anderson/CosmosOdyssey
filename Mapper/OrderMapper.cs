@@ -7,10 +7,13 @@ public class OrderMapper
         return new Domain.App.Order()
         {
             Id = x.Id,
-            FirstName = x.FirstName,
-            LastName = x.LastName,
+            RouteName = x.RouteName,
+            Price = x.Price,
+            FlightStart = x.FlightStart,
+            FlightEnd = x.FlightEnd,
+            CompanyName = x.CompanyName,
             DateOfPurchase = x.DateOfPurchase,
-            OrderLines = x.OrderLines.Select(c => new OrderLineMapper().DalToDomain(c)).ToList(),
+            CustomerId = x.CustomerId
         };
     }
 
@@ -19,10 +22,30 @@ public class OrderMapper
         return new DAL.App.DTO.Order()
         {
             Id = x.Id,
-            FirstName = x.FirstName,
-            LastName = x.LastName,
+            RouteName = x.RouteName,
+            Price = x.Price,
+            FlightStart = x.FlightStart,
+            FlightEnd = x.FlightEnd,
+            CompanyName = x.CompanyName,
             DateOfPurchase = x.DateOfPurchase,
-            OrderLines = x.OrderLines.Select(c => new OrderLineMapper().DomainToDal(c)).ToList(),
+            CustomerId = x.CustomerId
+        };
+    }
+    
+    public DAL.App.DTO.OrderWithCustomer DomainToDalWithCustomer(Domain.App.Order x)
+    {
+        return new DAL.App.DTO.OrderWithCustomer
+        {
+            Id = x.Id,
+            RouteName = x.RouteName,
+            Price = x.Price,
+            FlightStart = x.FlightStart,
+            FlightEnd = x.FlightEnd,
+            CompanyName = x.CompanyName,
+            DateOfPurchase = x.DateOfPurchase,
+            CustomerId = x.CustomerId,
+            CustomerFirstName = x.Customer.FirstName,
+            CustomerLastName = x.Customer.LastName
         };
     }
 }

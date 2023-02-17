@@ -1,0 +1,89 @@
+@model IEnumerable<DAL.App.DTO.OrderWithCustomer>
+
+@{
+    ViewData["Title"] = "Orders";
+}
+
+<h2>Orders</h2>
+
+@{
+    if (! string.IsNullOrEmpty((string?) ViewData["successMsg"]))
+    {
+        <div class="alert alert-success" role="alert">
+            @ViewData["successMsg"]
+        </div>   
+        
+    }
+}
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CustomerFirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CustomerLastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RouteName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price) (€)
+        </th>
+        <th>
+            Travel time (hours)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompanyName)
+        </th>
+
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerFirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerLastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RouteName)
+            </td>
+            <td class="text-end">
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td class="text-end">
+                @{ var totalHours = Math.Round((item.FlightEnd - item.FlightStart).TotalHours, 0); }
+                @totalHours
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CompanyName)
+            </td>
+
+        </tr>
+    }
+    </tbody>
+        <tfoot>
+            <tr>
+                <td>Total</td>
+                <td></td>
+                <td></td>
+                <td class="text-end">
+                    @(Model
+                        .Select(x => x.Price)
+                        .Sum()
+                        .ToString("F2"))
+                </td>
+                <td class="text-end">
+                    @{
+                        var totalDurationHours = Model.Sum(x => Math.Round((x.FlightEnd - x.FlightStart).TotalHours, 0));
+                    }
+                    @totalDurationHours
+                </td>
+                <td></td>
+            </tr>
+    </tfoot>
+</table>

@@ -6,7 +6,7 @@ namespace Domain.Base;
 
 public abstract class DomainEntityMetadata : IDomainEntityMetadata, IDomainEntityId<Guid>
 {
-    public Guid Id { get; set; }
+    public required Guid Id { get; set; }
     
     [MaxLength(255)]
     [JsonIgnore]

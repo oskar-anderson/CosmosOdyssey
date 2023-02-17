@@ -1,0 +1,23 @@
+@{
+    ViewData["Title"] = "Orders";
+}
+
+<h1>Orders</h1>
+
+@{
+    if (ViewData["errorMsg"] != null)
+    {
+        <div class="alert alert-danger" role="alert">
+            @ViewData["errorMsg"]
+        </div>   
+        
+    }
+}
+
+<form asp-controller="Order" asp-action="GetCustomerByName" method="GET">
+    <p>
+        First name: <input type="text" required="required" name="firstName" />
+        Last name: <input type="text" required="required" name="lastName" />
+        <input type="submit" value="Search" />
+    </p>
+</form>

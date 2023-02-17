@@ -10,7 +10,7 @@ public class ProvidedRouteMapper
         return new Domain.App.ProvidedRoute()
         {
             Id = x.Id,
-            PriceListId = x.PriceListId,
+            PriceListId = x.PriceList.Id,
             FromLocationId = fromLocation.Id,
             FromLocation = fromLocation,
             DestinationLocationId = destinationLocation.Id,
@@ -45,7 +45,7 @@ public class ProvidedRouteMapper
         return new DAL.App.DTO.ProvidedRoute()
         {
             Id = x.Id,
-            PriceListId = x.PriceListId,
+            PriceList = new PriceListMapper().DomainToDal(x.PriceList),
             FromLocation = new LocationMapper().DomainToDal(x.FromLocation),
             DestinationLocation = new LocationMapper().DomainToDal(x.DestinationLocation),
             Distance = x.Distance,

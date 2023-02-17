@@ -1,17 +1,22 @@
 using System.ComponentModel.DataAnnotations;
 using Domain.Base;
+using Microsoft.EntityFrameworkCore;
 
 namespace Domain.App;
 
 public class Order : DomainEntityMetadata
 {
-    [MaxLength(255)]
-    public string FirstName { get; set; } = default!;
-
-    [MaxLength(255)]
-    public string LastName { get; set; } = default!;
+    public required string RouteName { get; set; } = default!;
     
-    public DateTime DateOfPurchase { get; set; }
+    [Precision(28, 2)]
+    public required double Price { get; set; }
+    
+    public required DateTime FlightStart { get; set; }
+    public required DateTime FlightEnd { get; set; }
 
-    public virtual ICollection<OrderLine>? OrderLines { get; set; }
+    public required string CompanyName { get; set; } = default!;
+    public required DateTime DateOfPurchase { get; set; }
+
+    public required Guid CustomerId { get; set; }
+    public virtual Customer? Customer { get; set; }
 }

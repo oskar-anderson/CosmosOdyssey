@@ -6,7 +6,7 @@ namespace Domain.App;
 public class Company : DomainEntityMetadata
 {
     [MaxLength(255)]
-    public string Name { get; set; } = default!;
+    public required string Name { get; set; } = default!;
 
     public virtual ICollection<ProvidedRoute>? ProvidedRoutes { get; set; }
 

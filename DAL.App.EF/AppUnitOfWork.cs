@@ -15,14 +15,18 @@ public class AppUnitOfWork : IAppUnitOfWork
 
     public ICompanyRepository Companies => new CompanyRepository(UowDbContext);
     public ILocationRepository Locations => new LocationRepository(UowDbContext);
-    public IOrderLineRepository OrderLines => new OrderLineRepository(UowDbContext);
+    public ICustomerRepository Customers => new CustomerRepository(UowDbContext);
     public IOrderRepository Orders => new OrderRepository(UowDbContext);
     public IPriceListRepository PriceLists => new PriceListRepository(UowDbContext);
     public IProvidedRouteRepository ProvidedRoutes => new ProvidedRouteRepository(UowDbContext);
 
     public async Task<int> SaveChangesAsync()
     {
-        var result = await UowDbContext.SaveChangesAsync();
-        return result;
+        return await UowDbContext.SaveChangesAsync();
+    }
+    
+    public int SaveChanges()
+    {
+        return UowDbContext.SaveChanges();
     }
 }

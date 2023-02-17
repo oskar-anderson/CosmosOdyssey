@@ -11,7 +11,7 @@ public class AppDbContext : DbContext
     public DbSet<Company> Company { get; set; } = default!;
     public DbSet<Location> Location { get; set; } = default!;
     public DbSet<Order> Order { get; set; } = default!;
-    public DbSet<OrderLine> OrderLine { get; set; } = default!;
+    public DbSet<Customer> Customers { get; set; } = default!;
     public DbSet<PriceList> PriceList { get; set; } = default!;
     public DbSet<ProvidedRoute> ProvidedRoute { get; set; } = default!;
     

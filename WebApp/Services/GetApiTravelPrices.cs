@@ -49,8 +49,8 @@ public class GetApiTravelPrices : IGetApiTravelPrices
         {
             _logger.LogInformation($"LastItem is still valid. Interval: {(lastItem.ValidUntil - DateTime.UtcNow).TotalMilliseconds}");
             _timer.Interval = (lastItem.ValidUntil - DateTime.UtcNow).TotalMilliseconds;
-            return;
-        }  // last item is still valid, do not update anything
+            return; // last item is still valid, do not update anything
+        }
 
         var apiPriceList = await GetPriceListAsync(url);
         if (apiPriceList == null || apiPriceList.ValidUntil < DateTime.UtcNow)
@@ -65,6 +65,7 @@ public class GetApiTravelPrices : IGetApiTravelPrices
         var priceListId = Guid.NewGuid();
         var providedRouteList = await GetProvidedRoutes(apiPriceList, databaseContext, priceListId);
         var providedRouteRepository = new DAL.App.EF.Repositories.ProvidedRouteRepository(databaseContext);
+        providedRouteRepository.RemoveAll();
         foreach (var providedRoute in providedRouteList)
         {
             await providedRouteRepository.Add(providedRoute);

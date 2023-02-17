@@ -31,6 +31,10 @@ public class OrderRegistrationController : Controller
     [HttpGet]
     public async Task<IActionResult> PlanetForm2(Guid from)
     {
+        if (! ModelState.IsValid)
+        {
+            return RedirectToAction(nameof(HomeController.Error), "Home");
+        }
         var locations = await _uow.ProvidedRoutes.ProvidedRoutes_IncludeLocation_WhereFromLocationIdEqualsArg_SelectDestinationLocation_Distinct_ToListAsync(from);
         if (locations.Count == 0)
         {
@@ -54,6 +58,10 @@ public class OrderRegistrationController : Controller
     [HttpGet]
     public async Task<IActionResult> AvailableFlights(Guid from, Guid to)
     {
+        if (! ModelState.IsValid)
+        {
+            return RedirectToAction(nameof(HomeController.Error), "Home");
+        }
         var providedRoutes = await _uow.ProvidedRoutes.ProvidedRoutes_GetAll_WhereFromLocationIdEqualsArg1AndToLocationIdEqualsArg2_ToListAsync(from, to);
         return View(providedRoutes);
     }
@@ -61,40 +69,63 @@ public class OrderRegistrationController : Controller
     [HttpGet]
     public async Task<IActionResult> CreateOrder(Guid id)
     {
-        var providedRoute = await _uow.ProvidedRoutes.FirstOrDefault(id) ?? throw new ArgumentException($"System error, no providedRoutes with id: {id}");
+        if (! ModelState.IsValid)
+        {
+            return RedirectToAction(nameof(HomeController.Error), "Home");
+        }
+        var providedRoute = await _uow.ProvidedRoutes.FirstOrDefault(id);
+        if (providedRoute == null || providedRoute.PriceList.ValidUntil < DateTime.UtcNow)
+        {
+            return RedirectToAction(nameof(HomeController.Error), "Home");
+        }
         var createOrderModel = new WebDTO.CreateOrder()
         {
             FirstName = "",
             LastName = "",
+            ProvidedRouteId = providedRoute.Id,
             ProvidedRoute = providedRoute
         };
         return View(createOrderModel);
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateReservation(Guid providerId, string firstName, string lastName)
+    public async Task<IActionResult> CreateReservation(Guid providedRouteId, string firstName, string lastName)
     {
-        var provider = await _uow.ProvidedRoutes.FirstOrDefault(providerId) ?? throw new ArgumentException($"System error, no providedRoutes with id: {providerId}");
+        if (! ModelState.IsValid)
+        {
+            return RedirectToAction(nameof(HomeController.Error), "Home");
+        }
+        var providedRoute = await _uow.ProvidedRoutes.FirstOrDefault(providedRouteId);
+        if (providedRoute == null || providedRoute.PriceList.ValidUntil < DateTime.UtcNow)
+        {
+            return RedirectToAction(nameof(HomeController.Error), "Home");
+        }
         var orderId = Guid.NewGuid();
+        var customer = await _uow.Customers.GetCustomer_FirstOrDefaultAsync_WhereCustomerFirstNameEqualsArg1AndLastNameEqualsArg2(firstName, lastName);
+        if (customer == null)
+        {
+            var newCustomer = new DAL.App.DTO.Customer
+            {
+                Id = Guid.NewGuid(),
+                FirstName = firstName,
+                LastName = lastName,
+                Orders = new List<Order>(),
+            };
+            customer = await _uow.Customers.Add(newCustomer);
+        }
         var order = new DAL.App.DTO.Order()
         {
             Id = orderId,
             DateOfPurchase = DateTime.UtcNow,
-            FirstName = firstName,
-            LastName = lastName,
-            OrderLines = new List<OrderLine>() { new()
-                {
-                    Id = Guid.NewGuid(),
-                    OrderId = orderId,
-                    CompanyName = provider.Company.Name,
-                    FlightStart = provider.FlightStart,
-                    FlightEnd = provider.FlightEnd,
-                    Price = provider.Price,
-                    RouteName = $"{provider.FromLocation.PlanetName} -> {provider.DestinationLocation.PlanetName}",
-                }
-            }
+            CompanyName = providedRoute.Company.Name,
+            FlightStart = providedRoute.FlightStart,
+            FlightEnd = providedRoute.FlightEnd,
+            Price = providedRoute.Price,
+            RouteName = $"{providedRoute.FromLocation.PlanetName} -> {providedRoute.DestinationLocation.PlanetName}",
+            CustomerId = customer.Id,
         };
         await _uow.Orders.Add(order);
-        return RedirectToAction("Index", "Home");
+        await _uow.SaveChangesAsync();
+        return RedirectToAction(nameof(OrderController.ShowCustomerOrders), "Order", new { id = customer.Id, created = true });
     }
 }

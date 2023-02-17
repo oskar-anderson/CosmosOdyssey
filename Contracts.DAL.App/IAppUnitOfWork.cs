@@ -7,7 +7,7 @@ public interface IAppUnitOfWork
     ICompanyRepository Companies { get; }
     ILocationRepository Locations { get; }
     IOrderRepository Orders { get; }
-    IOrderLineRepository OrderLines { get; }
+    ICustomerRepository Customers { get; }
     IPriceListRepository PriceLists { get; }
     IProvidedRouteRepository ProvidedRoutes { get; }
 }

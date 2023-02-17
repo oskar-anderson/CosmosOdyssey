@@ -50,13 +50,13 @@
                 <td>
                     @Html.DisplayFor(modelItem => providedRoute.FlightEnd)
                 </td>
-                <td>
+                <td class="text-end">
                     @Html.DisplayFor(modelItem => providedRoute.Price)
                 </td>
-                <td>
+                <td class="text-end">
                     @Html.DisplayFor(modelItem => providedRoute.Distance)
                 </td>
-                <td>
+                <td class="text-end">
                     @((providedRoute.FlightEnd - providedRoute.FlightStart).TotalHours.ToString("F0"))
                 </td>
                 <td>

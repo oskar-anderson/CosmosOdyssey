@@ -1,8 +1,8 @@
 using System.Globalization;
 using System.Timers;
 using DAL.App.EF;
-using ServiceDTO.CosmosOdysseyApi;
 using System.Net.Http.Json;
+using WebDTO.CosmosOdysseyApi;
 
 namespace WebApp.Services;
 
@@ -87,7 +87,7 @@ public class GetApiTravelPrices : IGetApiTravelPrices
         await databaseContext.SaveChangesAsync();
     }
 
-    public async Task<ServiceDTO.CosmosOdysseyApi.ApiPriceList?> GetPriceListAsync(string apiUrl)
+    public async Task<ApiPriceList?> GetPriceListAsync(string apiUrl)
     {
         try
         {
@@ -98,7 +98,7 @@ public class GetApiTravelPrices : IGetApiTravelPrices
                 _logger.LogCritical($"API request failed: ${response.ReasonPhrase}");
                 return null;
             }
-            var apiPriceList = await response.Content.ReadFromJsonAsync<ServiceDTO.CosmosOdysseyApi.ApiPriceList>();
+            var apiPriceList = await response.Content.ReadFromJsonAsync<ApiPriceList>();
             return apiPriceList;
         }
         catch (Exception ex)

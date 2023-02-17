@@ -1,4 +1,4 @@
-namespace ServiceDTO.CosmosOdysseyApi;
+namespace WebDTO.CosmosOdysseyApi;
 
 public class ApiLeg
 {

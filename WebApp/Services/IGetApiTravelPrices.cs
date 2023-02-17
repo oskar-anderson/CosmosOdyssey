@@ -1,4 +1,4 @@
-using ServiceDTO.CosmosOdysseyApi;
+using WebDTO.CosmosOdysseyApi;
 
 namespace WebApp.Services;
 

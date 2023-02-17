@@ -58,6 +58,7 @@ Project layers:
 * Microsoft.EntityFrameworkCore.Abstractions - precision attribute for EF decimal datatype
 * Microsoft.Aspnetcore.Diagnostics.EntityFrameworkCore - builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 * System.Net.Http.Json - Convenience method to allow deserialization of httpClient request
+* Microsoft.AspNetCore.Mvc.ViewFeatures - SelectList
 * Identity (Unused):
   * Microsoft.Aspnetcore.Identity.UI - .AddDefaultIdentity()
   * Microsoft.Aspnetcore.Identity.EntityFrameworkCore - .AddEntityFrameworkStores()

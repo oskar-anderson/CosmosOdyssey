@@ -7,16 +7,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Reference Include="Microsoft.AspNetCore.Mvc.Core">
-        <HintPath>C:\Program Files\dotnet\shared\Microsoft.AspNetCore.App\7.0.2\Microsoft.AspNetCore.Mvc.Core.dll</HintPath>
-      </Reference>
-      <Reference Include="Microsoft.AspNetCore.Mvc.ViewFeatures">
-        <HintPath>C:\Program Files\dotnet\shared\Microsoft.AspNetCore.App\7.0.2\Microsoft.AspNetCore.Mvc.ViewFeatures.dll</HintPath>
-      </Reference>
+      <ProjectReference Include="..\DAL.App.DTO\DAL.App.DTO.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\DAL.App.DTO\DAL.App.DTO.csproj" />
+      <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
     </ItemGroup>
 
 </Project>

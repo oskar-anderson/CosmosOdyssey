@@ -14,7 +14,7 @@ Insert your PostgreSQL database connection string.
 ### Database schema:
 Database schema ERD:
 
-[Database ERD](./_doc/assets/db_schema_v1.png)
+![Database ERD](./_doc/assets/db_schema_v1.png)
 
 There is support for seeding Location and Company data from CSV files to database.
 Data is viable with LibreOffice (Excel is very bad for CSV files, recommended to use LibreOffice instead) in Data directory.
@@ -46,7 +46,7 @@ Project layers:
     * Domain.App - Contains the actual models database schema is based on. These objects can be inserted to the database.
     * Domain.Base - Implementations of `Contracts.Domain`
 * Mapper - All manual data mapping between layers
-* WebApp - The actual visible app. ASP.NET MVC frontend logic controllers
+* WebApp - ASP.NET MVC frontend logic controllers. The actual visible app.
 * WebDTO - Additional models
 
 
